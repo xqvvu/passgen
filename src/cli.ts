@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import { spawnSync } from "node:child_process";
+import { realpathSync } from "node:fs";
 import process from "node:process";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
 
 import { estimateEntropyBits, generatePassword, type PasswordOptions } from "./lib/password.ts";
 
@@ -244,8 +245,14 @@ function capitalize(value: string): string {
   return `${value.slice(0, 1).toUpperCase()}${value.slice(1)}`;
 }
 
-const invokedPath = process.argv[1] === undefined ? undefined : pathToFileURL(process.argv[1]).href;
+function isDirectlyInvoked(): boolean {
+  if (process.argv[1] === undefined) {
+    return false;
+  }
 
-if (invokedPath === import.meta.url) {
+  return realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url));
+}
+
+if (isDirectlyInvoked()) {
   process.exitCode = await main();
 }

@@ -1,5 +1,8 @@
 import { match, ok, strictEqual } from "node:assert/strict";
 import { spawnSync, type SpawnSyncReturns } from "node:child_process";
+import { mkdirSync, symlinkSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, test } from "node:test";
 
 const decoder = new TextDecoder();
@@ -46,6 +49,21 @@ void describe("passgen CLI", () => {
 
     strictEqual(result.status, 1);
     match(stderr(result), /Unknown option/);
+  });
+
+  void test("runs when invoked through a package bin symlink", () => {
+    const binDir = join(tmpdir(), `passgen-test-${process.pid}-${Date.now()}`);
+    const binPath = join(binDir, "passgen");
+
+    mkdirSync(binDir);
+    symlinkSync(join(process.cwd(), "dist/src/cli.js"), binPath);
+
+    const result = spawnSync("node", [binPath, "--length", "12", "--no-symbols"]);
+    const output = stdout(result).trim();
+
+    strictEqual(result.status, 0);
+    strictEqual(output.length, 12);
+    ok(!/[!@#$%^&*_\-+=?]/.test(output));
   });
 });
 

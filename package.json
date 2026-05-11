@@ -1,7 +1,16 @@
 {
   "name": "@xqvvu/passgen",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Secure, script-friendly password generation from the terminal.",
+  "keywords": [
+    "cli",
+    "generator",
+    "passgen",
+    "password",
+    "password-generator",
+    "random",
+    "security"
+  ],
   "homepage": "https://github.com/xqvvu/passgen#readme",
   "license": "MIT",
   "author": "xqvvu",
