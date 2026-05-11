@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { spawnSync } from "node:child_process";
-import { realpathSync } from "node:fs";
+import { existsSync, readFileSync, realpathSync } from "node:fs";
+import { dirname, join } from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 
@@ -12,6 +13,7 @@ interface CliOptions extends PasswordOptions {
   entropy: boolean;
   help: boolean;
   json: boolean;
+  version: boolean;
 }
 
 interface GeneratedPassword {
@@ -32,12 +34,18 @@ Options:
       --entropy             Print password and entropy estimate
       --json                Print JSON output
       --copy                Copy the first generated password to the clipboard
+  -V, --version             Show version
   -h, --help                Show this help
 `;
 
 export async function main(argv = process.argv.slice(2)): Promise<number> {
   try {
     const cliOptions = parseCliOptions(argv);
+
+    if (cliOptions.version) {
+      process.stdout.write(`${readPackageVersion()}\n`);
+      return 0;
+    }
 
     if (cliOptions.help) {
       process.stdout.write(HELP_TEXT);
@@ -67,6 +75,7 @@ export function parseCliOptions(argv: string[]): CliOptions {
     entropy: false,
     help: false,
     json: false,
+    version: false,
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -76,6 +85,10 @@ export function parseCliOptions(argv: string[]): CliOptions {
       case "-h":
       case "--help":
         options.help = true;
+        break;
+      case "-V":
+      case "--version":
+        options.version = true;
         break;
       case "-l":
       case "--length":
@@ -243,6 +256,37 @@ function commandExists(command: string): boolean {
 
 function capitalize(value: string): string {
   return `${value.slice(0, 1).toUpperCase()}${value.slice(1)}`;
+}
+
+function readPackageVersion(): string {
+  const packagePath = findPackageJson(dirname(fileURLToPath(import.meta.url)));
+  const packageJson = JSON.parse(readFileSync(packagePath, "utf8")) as { version?: unknown };
+
+  if (typeof packageJson.version !== "string") {
+    throw new Error("Package version is missing from package.json.");
+  }
+
+  return packageJson.version;
+}
+
+function findPackageJson(startDirectory: string): string {
+  let directory = startDirectory;
+
+  while (true) {
+    const candidate = join(directory, "package.json");
+
+    if (existsSync(candidate)) {
+      return candidate;
+    }
+
+    const parent = dirname(directory);
+
+    if (parent === directory) {
+      throw new Error("Could not find package.json.");
+    }
+
+    directory = parent;
+  }
 }
 
 function isDirectlyInvoked(): boolean {

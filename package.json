@@ -1,6 +1,6 @@
 {
   "name": "@xqvvu/passgen",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Secure, script-friendly password generation from the terminal.",
   "keywords": [
     "cli",
@@ -47,6 +47,7 @@
     "build": "tsgo -p ./tsconfig.build.json",
     "lint": "oxlint --type-aware",
     "fmt": "oxfmt",
+    "typecheck": "tsgo --noEmit",
     "prepack": "bun run build",
     "test": "node --test",
     "test:bun": "bun test"

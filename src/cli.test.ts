@@ -1,6 +1,6 @@
 import { match, ok, strictEqual } from "node:assert/strict";
 import { spawnSync, type SpawnSyncReturns } from "node:child_process";
-import { mkdirSync, symlinkSync } from "node:fs";
+import { mkdirSync, readFileSync, symlinkSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, test } from "node:test";
@@ -51,6 +51,28 @@ void describe("passgen CLI", () => {
     match(stderr(result), /Unknown option/);
   });
 
+  void test("prints version with short flag", () => {
+    const result = runCli("-V");
+
+    strictEqual(result.status, 0);
+    strictEqual(stdout(result), `${packageVersion()}\n`);
+  });
+
+  void test("prints version with long flag", () => {
+    const result = runCli("--version");
+
+    strictEqual(result.status, 0);
+    strictEqual(stdout(result), `${packageVersion()}\n`);
+  });
+
+  void test("prints only version when mixed with generation options", () => {
+    const result = runCli("--version", "--length", "32");
+    const output = stdout(result);
+
+    strictEqual(result.status, 0);
+    strictEqual(output, `${packageVersion()}\n`);
+  });
+
   void test("runs when invoked through a package bin symlink", () => {
     const binDir = join(tmpdir(), `passgen-test-${process.pid}-${Date.now()}`);
     const binPath = join(binDir, "passgen");
@@ -79,4 +101,10 @@ function stdout(result: SpawnResult): string {
 
 function stderr(result: SpawnResult): string {
   return decoder.decode(result.stderr);
+}
+
+function packageVersion(): string {
+  const packageJson = JSON.parse(readFileSync("package.json", "utf8")) as { version: string };
+
+  return packageJson.version;
 }

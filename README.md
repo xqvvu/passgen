@@ -24,6 +24,7 @@ passgen --count 5 --no-symbols
 passgen --json
 passgen --entropy
 passgen --copy
+passgen --version
 ```
 
 By default, `passgen` prints one 20-character password and nothing else. It uses cryptographically secure randomness, includes lowercase letters, uppercase letters, numbers, and symbols, and excludes ambiguous characters such as `0`, `O`, `1`, `l`, and `I`.
@@ -42,6 +43,7 @@ By default, `passgen` prints one 20-character password and nothing else. It uses
 | `--entropy`             | Print the generated password with its entropy estimate.         |
 | `--json`                | Print JSON output.                                              |
 | `--copy`                | Copy the first generated password to the system clipboard.      |
+| `-V, --version`         | Show version.                                                   |
 | `-h, --help`            | Show CLI help.                                                  |
 
 Plain output is designed for shell scripts:
