@@ -1,0 +1,52 @@
+{
+  "name": "@xqvvu/passgen",
+  "version": "0.1.0",
+  "description": "Secure, script-friendly password generation from the terminal.",
+  "homepage": "https://github.com/xqvvu/passgen#readme",
+  "license": "MIT",
+  "author": "xqvvu",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xqvvu/passgen.git"
+  },
+  "bin": {
+    "passgen": "./dist/src/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "src",
+    "!src/**/*.test.ts",
+    "LICENSE"
+  ],
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "default": "./dist/src/index.js",
+        "types": "./dist/src/index.d.ts"
+      },
+      "./package.json": "./package.json"
+    }
+  },
+  "scripts": {
+    "build": "tsgo -p ./tsconfig.build.json",
+    "lint": "oxlint --type-aware",
+    "fmt": "oxfmt",
+    "prepack": "bun run build",
+    "test": "node --test",
+    "test:bun": "bun test"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@typescript/native-preview": "^7.0.0-dev.20260510.1",
+    "oxfmt": "^0.48.0",
+    "oxlint": "^1.63.0",
+    "oxlint-tsgolint": "^0.22.1"
+  }
+}

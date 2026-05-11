@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "ignorePatterns": [".cursor/**", "**/node_modules/**", ".codex/**"],
+  "endOfLine": "lf",
+  "semi": true,
+  "singleQuote": false,
+  "sortImports": true,
+  "sortPackageJson": true,
+  "printWidth": 120
+}

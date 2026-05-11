@@ -1,0 +1,33 @@
+schema: spec-driven
+
+context: |
+  Package: @xqvvu/passgen
+  Product: a secure, script-friendly CLI password generator.
+  Runtime/tooling: TypeScript ESM, Bun for package scripts and build orchestration, Node built-ins for tests.
+  Source layout:
+    - src/index.ts is the public package API entrypoint.
+    - src/cli.ts is the passgen CLI entrypoint.
+    - src/lib/** contains reusable implementation logic.
+    - Tests are colocated next to source files as *.test.ts.
+  Testing:
+    - Use node:test and node:assert/strict for tests.
+    - Do not use bun:test.
+  Security:
+    - Password generation must use cryptographically secure randomness.
+    - Do not use Math.random for password material.
+  CLI behavior:
+    - Default stdout should remain script-friendly and print password lines only.
+    - Metadata output must be opt-in via explicit flags such as --json or --entropy.
+
+rules:
+  proposal:
+    - Keep scope focused on CLI and package behavior unless the user explicitly expands it.
+  design:
+    - Record security-sensitive randomness and output-format decisions explicitly.
+    - Prefer minimal dependencies and Node/Bun standard capabilities where practical.
+  specs:
+    - Requirements must be testable from CLI behavior or exported API behavior.
+    - Include scenarios for default output, option handling, validation, and security-sensitive behavior.
+  tasks:
+    - Keep tasks small enough to complete and verify in one session.
+    - Include verification tasks for lint, build, tests, OpenSpec validation, and package dry run when release behavior is affected.
