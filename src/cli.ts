@@ -38,6 +38,12 @@ Options:
   -h, --help                Show this help
 `;
 
+/**
+ * Runs the passgen CLI.
+ *
+ * @param argv - Command-line arguments without the executable and script name.
+ * @returns A process exit code.
+ */
 export async function main(argv = process.argv.slice(2)): Promise<number> {
   try {
     const cliOptions = parseCliOptions(argv);
@@ -68,6 +74,13 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
   }
 }
 
+/**
+ * Parses command-line arguments into CLI options.
+ *
+ * @param argv - Command-line arguments without the executable and script name.
+ * @returns Parsed CLI options.
+ * @throws If an option is unknown, missing a value, or receives an invalid value.
+ */
 export function parseCliOptions(argv: string[]): CliOptions {
   const options: CliOptions = {
     copy: false,

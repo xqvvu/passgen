@@ -3,7 +3,9 @@
 ## Purpose
 
 Define the required behavior for `@xqvvu/passgen` as a secure, script-friendly CLI password generator and reusable TypeScript password generation API.
+
 ## Requirements
+
 ### Requirement: Default secure password generation
 
 The system SHALL provide a `passgen` CLI command that generates one strong random password using cryptographically secure randomness when invoked without options.
@@ -101,4 +103,3 @@ The system SHALL allow users to print the installed `passgen` package version fr
 - **WHEN** the user runs `passgen --version`
 - **THEN** stdout contains exactly the current package version followed by a newline
 - **AND** no password is generated
-
