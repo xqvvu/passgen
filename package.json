@@ -50,7 +50,8 @@
     "typecheck": "tsgo --noEmit",
     "prepack": "bun run build",
     "test": "node --test",
-    "test:bun": "bun test"
+    "test:bun": "bun test",
+    "test:deno": "deno test -A"
   },
   "devDependencies": {
     "@types/bun": "latest",

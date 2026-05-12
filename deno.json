@@ -1,0 +1,18 @@
+{
+  "name": "@xqvvu/passgen",
+  "version": "0.1.2",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "tasks": {
+    "build": "tsgo -p ./tsconfig.build.json",
+    "lint": "oxlint --type-aware",
+    "fmt": "oxfmt",
+    "typecheck": "tsgo --noEmit",
+    "prepack": "bun run build",
+    "test": "node --test",
+    "test:bun": "bun test",
+    "test:deno": "deno test -A"
+  }
+}

@@ -1,4 +1,5 @@
 import { match, ok, strictEqual } from "node:assert/strict";
+import type { Buffer } from "node:buffer";
 import { spawnSync, type SpawnSyncReturns } from "node:child_process";
 import { mkdirSync, readFileSync, symlinkSync } from "node:fs";
 import { tmpdir } from "node:os";

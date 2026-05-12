@@ -1,0 +1,8 @@
+{
+  "name": "@xqvvu/passgen",
+  "version": "0.1.2",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  }
+}
